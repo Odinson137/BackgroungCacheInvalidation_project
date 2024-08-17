@@ -1,5 +1,4 @@
-using BackgroungCacheInvalidation_project.Services;
-using Microsoft.AspNetCore.Mvc;
+using Consumer2_project.Services;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(await ConnectionMultiplexer.ConnectAsync("localhost:6379"));
-builder.Services.AddScoped<Producer>();
+builder.Services.AddHostedService<Consumer>();
 
 var app = builder.Build();
 
@@ -23,13 +22,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-const string Channel = "messages";
-
-app.MapGet("/", (IConnectionMultiplexer connectionMultiplexer) =>
-    {
-        connectionMultiplexer.GetSubscriber().Publish(Channel, "hello");
-        return new OkResult();
-    })
-    .WithOpenApi();
 
 app.Run();

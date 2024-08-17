@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace BackgroungCacheInvalidation_project.Services;
+namespace Consumer1_project.Services;
 
 public class Consumer : BackgroundService
 {
@@ -18,7 +18,7 @@ public class Consumer : BackgroundService
     {
         await _subscriber.SubscribeAsync(Channel, (channel, message) =>
         {
-            _logger.LogInformation($"Hello from consumer with message! {channel}: {message}");
+            _logger.LogInformation($"Hello from consumer 1 with message! {channel}: {message}");
         });
     }
 }
